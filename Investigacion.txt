@@ -1,0 +1,3 @@
+Investigacion sobre el patron repositorio-4 horas
+Creacion del diagrama de la base de datos-2 Horas
+Investigacion sobre microservicios- 3 horas
