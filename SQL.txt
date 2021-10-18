@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [Pollitos]    Script Date: 10/18/2021 10:11:56 AM ******/
+/****** Object:  Database [Pollitos]    Script Date: 10/18/2021 12:37:51 PM ******/
 CREATE DATABASE [Pollitos]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,51 +82,7 @@ ALTER DATABASE [Pollitos] SET QUERY_STORE = OFF
 GO
 USE [Pollitos]
 GO
-/****** Object:  Table [dbo].[Canton]    Script Date: 10/18/2021 10:11:57 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Canton](
-	[Id_Canton] [int] NOT NULL,
-	[Descripcion] [nchar](20) NOT NULL,
-	[Id_Provincia] [int] NOT NULL,
- CONSTRAINT [PK_Canton] PRIMARY KEY CLUSTERED 
-(
-	[Id_Canton] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Condicion]    Script Date: 10/18/2021 10:11:57 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Condicion](
-	[Id_Condicion] [int] NOT NULL,
-	[Descripcion] [nchar](50) NULL,
- CONSTRAINT [PK_Condicion] PRIMARY KEY CLUSTERED 
-(
-	[Id_Condicion] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Diario]    Script Date: 10/18/2021 10:11:57 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Diario](
-	[id_Diario] [int] NOT NULL,
-	[cantidad] [int] NOT NULL,
-	[id_articulo] [int] NOT NULL,
- CONSTRAINT [PK_Diario] PRIMARY KEY CLUSTERED 
-(
-	[id_Diario] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Distrito]    Script Date: 10/18/2021 10:11:57 AM ******/
+/****** Object:  Table [dbo].[Distrito]    Script Date: 10/18/2021 12:37:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -142,7 +98,77 @@ CREATE TABLE [dbo].[Distrito](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Info_Usuario]    Script Date: 10/18/2021 10:11:57 AM ******/
+/****** Object:  Table [dbo].[Canton]    Script Date: 10/18/2021 12:37:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Canton](
+	[Id_Canton] [int] NOT NULL,
+	[Descripcion] [nchar](20) NOT NULL,
+	[Id_Provincia] [int] NOT NULL,
+ CONSTRAINT [PK_Canton] PRIMARY KEY CLUSTERED 
+(
+	[Id_Canton] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Provincia]    Script Date: 10/18/2021 12:37:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Provincia](
+	[Id_Provincia] [int] NOT NULL,
+	[Descripcion] [nchar](20) NULL,
+ CONSTRAINT [PK_Provincia] PRIMARY KEY CLUSTERED 
+(
+	[Id_Provincia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[Address]    Script Date: 10/18/2021 12:37:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Address]
+AS
+SELECT        dbo.Provincia.Descripcion AS 'Provincia', dbo.Canton.Descripcion AS 'Canton', dbo.Distrito.Descripcion AS 'Distrito', dbo.Distrito.Senales
+FROM            dbo.Provincia INNER JOIN
+                         dbo.Canton ON dbo.Provincia.Id_Provincia = dbo.Canton.Id_Provincia INNER JOIN
+                         dbo.Distrito ON dbo.Canton.Id_Canton = dbo.Distrito.Id_Canton
+GO
+/****** Object:  Table [dbo].[Condicion]    Script Date: 10/18/2021 12:37:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Condicion](
+	[Id_Condicion] [int] NOT NULL,
+	[Descripcion] [nchar](50) NULL,
+ CONSTRAINT [PK_Condicion] PRIMARY KEY CLUSTERED 
+(
+	[Id_Condicion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Diario]    Script Date: 10/18/2021 12:37:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Diario](
+	[cantidad] [int] NOT NULL,
+	[id_articulo] [int] NOT NULL,
+	[CedulaP] [int] NULL,
+ CONSTRAINT [PK_Diario_1] PRIMARY KEY CLUSTERED 
+(
+	[id_articulo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Info_Usuario]    Script Date: 10/18/2021 12:37:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -159,7 +185,7 @@ CREATE TABLE [dbo].[Info_Usuario](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Lista_articulos]    Script Date: 10/18/2021 10:11:57 AM ******/
+/****** Object:  Table [dbo].[Lista_articulos]    Script Date: 10/18/2021 12:37:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -173,7 +199,7 @@ CREATE TABLE [dbo].[Lista_articulos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Noticias]    Script Date: 10/18/2021 10:11:57 AM ******/
+/****** Object:  Table [dbo].[Noticias]    Script Date: 10/18/2021 12:37:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -187,7 +213,7 @@ CREATE TABLE [dbo].[Noticias](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Padres_Tutor]    Script Date: 10/18/2021 10:11:57 AM ******/
+/****** Object:  Table [dbo].[Padres_Tutor]    Script Date: 10/18/2021 12:37:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -203,7 +229,7 @@ CREATE TABLE [dbo].[Padres_Tutor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Pollito]    Script Date: 10/18/2021 10:11:57 AM ******/
+/****** Object:  Table [dbo].[Pollito]    Script Date: 10/18/2021 12:37:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -213,31 +239,17 @@ CREATE TABLE [dbo].[Pollito](
 	[Nombre] [nchar](20) NOT NULL,
 	[Primer_Apellido] [nchar](20) NOT NULL,
 	[Segundo Apellido] [nchar](20) NOT NULL,
-	[id_Diario] [int] NOT NULL,
-	[Usuario] [nchar](40) NULL,
 	[id_Condicion] [int] NOT NULL,
-	[Cedula] [int] NOT NULL,
+	[CedulaU] [int] NOT NULL,
+	[Id_Provincia] [int] NULL,
+	[Cedula] [int] NULL,
  CONSTRAINT [PK_Pollito] PRIMARY KEY CLUSTERED 
 (
 	[CedulaP] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Provincia]    Script Date: 10/18/2021 10:11:57 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Provincia](
-	[Id_Provincia] [int] NOT NULL,
-	[Descripcion] [nchar](20) NULL,
- CONSTRAINT [PK_Provincia] PRIMARY KEY CLUSTERED 
-(
-	[Id_Provincia] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Usuario]    Script Date: 10/18/2021 10:11:57 AM ******/
+/****** Object:  Table [dbo].[Usuario]    Script Date: 10/18/2021 12:37:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -261,6 +273,11 @@ REFERENCES [dbo].[Lista_articulos] ([id_articulo])
 GO
 ALTER TABLE [dbo].[Diario] CHECK CONSTRAINT [FK_Diario_Lista_articulos]
 GO
+ALTER TABLE [dbo].[Diario]  WITH CHECK ADD  CONSTRAINT [FK_Diario_Pollito] FOREIGN KEY([CedulaP])
+REFERENCES [dbo].[Pollito] ([CedulaP])
+GO
+ALTER TABLE [dbo].[Diario] CHECK CONSTRAINT [FK_Diario_Pollito]
+GO
 ALTER TABLE [dbo].[Distrito]  WITH CHECK ADD  CONSTRAINT [FK_Distrito_Canton] FOREIGN KEY([Id_Canton])
 REFERENCES [dbo].[Canton] ([Id_Canton])
 GO
@@ -276,15 +293,146 @@ REFERENCES [dbo].[Condicion] ([Id_Condicion])
 GO
 ALTER TABLE [dbo].[Pollito] CHECK CONSTRAINT [FK_Pollito_Condicion]
 GO
-ALTER TABLE [dbo].[Pollito]  WITH CHECK ADD  CONSTRAINT [FK_Pollito_Diario] FOREIGN KEY([id_Diario])
-REFERENCES [dbo].[Diario] ([id_Diario])
-GO
-ALTER TABLE [dbo].[Pollito] CHECK CONSTRAINT [FK_Pollito_Diario]
-GO
-ALTER TABLE [dbo].[Pollito]  WITH CHECK ADD  CONSTRAINT [FK_Pollito_Padres_Tutor] FOREIGN KEY([Cedula])
+ALTER TABLE [dbo].[Pollito]  WITH CHECK ADD  CONSTRAINT [FK_Pollito_Padres_Tutor1] FOREIGN KEY([Cedula])
 REFERENCES [dbo].[Padres_Tutor] ([Cedula])
 GO
-ALTER TABLE [dbo].[Pollito] CHECK CONSTRAINT [FK_Pollito_Padres_Tutor]
+ALTER TABLE [dbo].[Pollito] CHECK CONSTRAINT [FK_Pollito_Padres_Tutor1]
+GO
+ALTER TABLE [dbo].[Pollito]  WITH CHECK ADD  CONSTRAINT [FK_Pollito_Provincia] FOREIGN KEY([Id_Provincia])
+REFERENCES [dbo].[Provincia] ([Id_Provincia])
+GO
+ALTER TABLE [dbo].[Pollito] CHECK CONSTRAINT [FK_Pollito_Provincia]
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "Canton"
+            Begin Extent = 
+               Top = 6
+               Left = 246
+               Bottom = 119
+               Right = 416
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Distrito"
+            Begin Extent = 
+               Top = 6
+               Left = 454
+               Bottom = 136
+               Right = 624
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Provincia"
+            Begin Extent = 
+               Top = 6
+               Left = 38
+               Bottom = 102
+               Right = 208
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'Address'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'Address'
 GO
 USE [master]
 GO
