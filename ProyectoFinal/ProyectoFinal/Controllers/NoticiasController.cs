@@ -10,7 +10,7 @@ using ProyectoFinal.Models;
 namespace ProyectoFinal.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController] 
     public class NoticiasController : ControllerBase
     {
         private readonly PollitosContext _context;
