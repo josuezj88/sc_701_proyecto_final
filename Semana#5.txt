@@ -1,7 +1,0 @@
-Semana #5:
-- Para comenzar el frontend.
-- Busqueda de información sobre como utilizar React.
-- Primero reforzar conocimientos en Java Script.
-	- https://www.youtube.com/watch?v=xnWtGNiG2lg&list=PLhSj3UTs2_yVC0iaCGf16glrrfXuiSd0G (JS desde cero).
--Curso básico para intriducción en React
-	- https://www.youtube.com/watch?v=zIY87vU33aA
