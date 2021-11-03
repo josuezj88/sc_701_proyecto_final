@@ -1,4 +1,6 @@
+using API.Mapping;
 using AutoMapper;
+using DAL.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +28,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<SolutionDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionAPI")));
+            services.AddDbContext<SolutionDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionAPI")));
 
             services.AddSwaggerGen();
 
@@ -34,7 +36,7 @@ namespace API
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                //mc.AddProfile(new MappingProfile());
+                mc.AddProfile(new MappingProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
