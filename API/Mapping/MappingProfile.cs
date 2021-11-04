@@ -16,6 +16,11 @@ namespace API.Mapping
             CreateMap<data.Tutores, DataModels.Tutores>().ReverseMap();
             CreateMap<data.Direcciones, DataModels.Direcciones>().ReverseMap();
             CreateMap<data.Productos, DataModels.Productos>().ReverseMap();
+            CreateMap<data.Detalles, DataModels.Detalles>().ReverseMap();
+            CreateMap<data.Diarios, DataModels.Diarios>().ReverseMap();
+            CreateMap<data.Pollitos, DataModels.Pollitos>().ReverseMap();
+            CreateMap<data.Noticias, DataModels.Noticias>().ReverseMap();
+            CreateMap<data.AspNetUsers, DataModels.AspNetUsers>().ReverseMap();
         }
     }
 }
