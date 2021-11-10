@@ -64,6 +64,11 @@ namespace DAL.Repository
             return dbContext.Set<T>().Find(id);
         }
 
+        public T GetLoginByUser(string username, string password)
+        {
+            return dbContext.Set<T>().Find(username, password);
+        }
+
         public void Insert(T t)
         {
             if (dbContext.Entry<T>(t).State == Microsoft.EntityFrameworkCore.EntityState.Detached)

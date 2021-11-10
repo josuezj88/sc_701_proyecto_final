@@ -34,7 +34,10 @@ function Login() {
         if(response){
             console.log(response.data);
             cookies.set('id', response.id, {path:"/Home"});
+            localStorage.setItem("Id", response.id);
             cookies.set('username', response.email, {path:"/Home"});
+            localStorage.setItem("Cuenta", response.username);
+            localStorage.setItem("Email", response.email);
             cookies.set('nombre', response.nombre, {path:"/Home"});
             localStorage.setItem("Nombre", response.nombre);
             cookies.set('apellido', response.primerApellido, {path:"/Home"});

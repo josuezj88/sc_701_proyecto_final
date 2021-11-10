@@ -6,10 +6,11 @@ using data = DAL.DO.Objects;
 using DAL.Repository;
 using DAL.EF;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace DAL
 {
-    public class AspNetUsers : ICRUD<data.AspNetUsers>
+    public class AspNetUsers : ICRUD<data.AspNetUsers>, ILogin<data.AspNetUsers>
     {
         private Repository<data.AspNetUsers> _repo = null;
 
@@ -33,6 +34,16 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        public data.AspNetUsers GetLoginByUser(string username, string password)
+        {
+            return _repo.GetLoginByUser(username, password);
+        }
+
+        public data.AspNetUsers GetOne(Expression<Func<data.AspNetUsers, bool>> predicado)
+        {
+            return _repo.GetOne(predicado);
+        }
+
         public data.AspNetUsers GetOneById(int id)
         {
             throw new NotImplementedException();
@@ -42,6 +53,8 @@ namespace DAL
         {
             return _repo.GetOneByIdString(id);
         }
+
+
 
         public Task<data.AspNetUsers> GetOneByIdWithAsync(int id)
         {

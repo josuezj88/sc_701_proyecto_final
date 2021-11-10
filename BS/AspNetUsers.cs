@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.DO.Interface;
@@ -8,7 +9,7 @@ using data = DAL.DO.Objects;
 
 namespace BS
 {
-    public class AspNetUsers : ICRUD<data.AspNetUsers>
+    public class AspNetUsers : ICRUD<data.AspNetUsers>, ILogin<data.AspNetUsers>
     {
         private SolutionDbContext _context;
 
@@ -29,6 +30,16 @@ namespace BS
         public Task<IEnumerable<data.AspNetUsers>> GetAllWithAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public data.AspNetUsers GetLoginByUser(string username, string password)
+        {
+            return new DAL.AspNetUsers(_context).GetLoginByUser(username, password);
+        }
+
+        public data.AspNetUsers GetOne(Expression<Func<data.AspNetUsers, bool>> predicado)
+        {
+            return new DAL.AspNetUsers(_context).GetOne(predicado);
         }
 
         public data.AspNetUsers GetOneById(int id)

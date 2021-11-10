@@ -20,6 +20,8 @@ namespace DAL.Repository
 
         T GetOneByIdString(string id);
 
+        T GetLoginByUser(string username, string password);
+
         void Insert(T t);
 
         void Update(T t);

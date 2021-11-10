@@ -49,6 +49,23 @@ namespace API.Controllers
             return mapaux;
         }
 
+        // GET: api/AspNetUsers/username/password
+
+        [HttpGet("{username}/{password}")]
+        public async Task<ActionResult<DataModels.AspNetUsers>> GetOne(string username, string password)
+        {
+            var AspNetUsers = new BS.AspNetUsers(_context).GetOne(u => u.Email.Equals(username) && u.PasswordHash.Equals(password));
+            var mapaux = _mapper.Map<data.AspNetUsers, DataModels.AspNetUsers>(AspNetUsers);
+
+            if (AspNetUsers == null)
+            {
+                return NotFound();
+            }
+
+            return mapaux;
+        }
+
+
         // PUT: api/AspNetUsers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
