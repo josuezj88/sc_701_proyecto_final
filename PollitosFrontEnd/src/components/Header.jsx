@@ -15,25 +15,28 @@ export default function Header() {
     const baseUrl = "http://localhost:6281/api/AspNetUsers";
     const cookies = new Cookies();
 
-    useEffect(() => {
-        const userCookie = localStorage.getItem('Id');
-        if(!userCookie){
-            Axios.get(baseUrl + `/${userCookie}`)
-        .then(async (res) => {
-            if (res.data === "") {
-                localStorage.clear();
-                history.push("/");
-            }else{
-                console.log("this is the header data "+ res)
-                localStorage.setItem("userName", res.data.nombre + " " + res.data.primerApellido);
-                localStorage.setItem("correo", res.data.email);
-                localStorage.setItem("userId", res.data.id);
-                localStorage.setItem("Cuenta", res.data.username);
-            }
-        });
-        }
+    // useEffect(() => {
+    //     const userCookie = localStorage.getItem('Id');
+    //     console.log("este es el id "+userCookie);
+    //     if(userCookie){
+    //         Axios.get(baseUrl + `/${userCookie}`)
+    //     .then(async (res) => {
+    //         console.log("este es el res "+res.data)
+    //         if (res.data === "") {
+    //             localStorage.clear();
+    //             history.push("/");
+    //         }else{
+    //             console.log("this is the header data "+ res)
+    //             localStorage.setItem("userName", res.data.nombre + " " + res.data.primerApellido);
+    //             localStorage.setItem("correo", res.data.email);
+    //             localStorage.setItem("userId", res.data.id);
+    //             localStorage.setItem("Cuenta", res.data.username);
+    //         }
+    //     });
+    //     }
         
-    }, []);
+    // }, []);
+    console.log("esta es la cuenta "+localStorage.getItem("Cuenta"));
     
     const logOut = () => {
        
@@ -51,8 +54,8 @@ export default function Header() {
             id="mainNav">
             <div className="container">
                 {/* {localStorage.getItem('tipoCuenta') === 'Cliente' ? <HeaderCliente /> : ''} */}
-                {localStorage.getItem('tipoCuenta') === 'Administrador' ? <HeaderAdmin /> : ''}
-                {localStorage.getItem('tipoCuenta') === 'Usuario' ? <HeaderUsuario /> : ''}
+                {localStorage.getItem('Cuenta') === 'Administrador' ? <HeaderAdmin /> : ''}
+                {localStorage.getItem('Cuenta') === 'Usuario' ? <HeaderUsuario /> : ''}
                 <div className=" navbar-collapse mt-1">
                     <ul className="navbar-nav ml-auto">
                         <ul className="navbar-nav ml-auto">

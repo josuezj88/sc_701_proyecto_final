@@ -5,6 +5,7 @@ import { Button, Alert, Label, Input, FormGroup } from "reactstrap";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "universal-cookie";
+import { useHistory } from "react-router-dom";
 import PollitoLogo from "../../images/pollitosHierro.png";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons';
@@ -14,6 +15,7 @@ library.add(faGoogle, faFacebookF)
 
 function Login() {
   const emailRef = useRef();
+  const history = useHistory();
   const passwordRef = useRef();
   const [error, setError] = useState("");
   const baseUrl = "http://localhost:6281/api/AspNetUsers";
@@ -28,22 +30,21 @@ function Login() {
       password: md5(passwordRef.current.value)
     };
 
-    console.log("este es el login" + login);
     Axios.get(baseUrl + `/${login.username}/${login.password}`)
       .then(response => {
         if(response){
             console.log(response.data);
-            cookies.set('id', response.id, {path:"/Home"});
-            localStorage.setItem("Id", response.id);
-            cookies.set('username', response.email, {path:"/Home"});
-            localStorage.setItem("Cuenta", response.username);
-            localStorage.setItem("Email", response.email);
-            cookies.set('nombre', response.nombre, {path:"/Home"});
-            localStorage.setItem("Nombre", response.nombre);
-            cookies.set('apellido', response.primerApellido, {path:"/Home"});
-            cookies.set('telefono', response.phoneNumber, {path:"/Home"});
+            cookies.set('id', response.data.id, {path:"/Home"});
+            localStorage.setItem("Id", response.data.id);
+            cookies.set('username', response.data.username, {path:"/Home"});
+            localStorage.setItem("Cuenta", response.data.userName);
+            localStorage.setItem("Email", response.data.email);
+            cookies.set('nombre', response.data.nombre, {path:"/Home"});
+            localStorage.setItem("Nombre", response.data.nombre);
+            cookies.set('apellido', response.data.primerApellido, {path:"/Home"});
+            cookies.set('telefono', response.data.phoneNumber, {path:"/Home"});
            
-            window.location = "/Home";
+            history.push("/Home");
         }else{
             setError("Su contraseña o usuario estan incorrectos");
         }

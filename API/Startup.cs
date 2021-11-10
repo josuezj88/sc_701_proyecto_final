@@ -30,7 +30,7 @@ namespace API
         {
             services.AddCors();
 
-            services.AddDbContext<SolutionDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionAPI")));
+            services.AddDbContext<SolutionDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSwaggerGen();
 
