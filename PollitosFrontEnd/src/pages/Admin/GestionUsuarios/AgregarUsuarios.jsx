@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
-import Footer from "../../components/Footer";
+import React, { useState, useRef } from 'react';
+import Footer from "../../../components/Footer";
+import Header from "../../../components/Header";
+import HeaderStatus from "../../../components/HeaderStatus";
 import Axios from "axios";
-import md5 from 'md5';
-import { useHistory } from "react-router-dom";
-import PollitoLogo from "../../images/pollitosHierro.png";
-import { Link } from "react-router-dom";
 import swal from 'sweetalert';
-function Register() {
+import { useHistory } from "react-router-dom";
+import md5 from 'md5';
+const CreateUsuario = () => {
     const nombreRef = useRef();
     const lnameRef = useRef();
     const phoneRef = useRef();
@@ -14,17 +14,18 @@ function Register() {
     const dateRef = useRef();
     const cedulaRef = useRef();
     const snameRef = useRef();
-    const provinceRef = useRef();
+    const perfilRef = useRef();
+    const provinceRef = useRef()
     const postalRef = useRef();
     const detalleRef = useRef();
     const passRef = useRef();
     const confirmPassRef = useRef();
-    const [errors, setError] = useState(true);
+    const [error, setError] = useState(true);
     const [loading] = useState(false);
     const history = useHistory();
     function setValues(e) {
+        setError(false)
         e.preventDefault();
-        setError(true);
         var enteredValue = dateRef.current.value;
         var birthDate = new Date(enteredValue);
         var today = new Date();
@@ -35,32 +36,40 @@ function Register() {
         }
         const cliente = {
             id:cedulaRef.current.value,
-            userName:"Usuario",
             email: emailRef.current.value,
             emailConfirmed:true,
             phoneNumber:phoneRef.current.value,
-            securityStamp:"Activo",
             phoneNumberConfirmed:true,
-            nombre: nombreRef.current.value,
             lockoutEnd:today,
+            nombre: nombreRef.current.value,
             primerApellido: lnameRef.current.value,
             segundoApellido: snameRef.current.value,
+            securityStamp:"Activo",
+            userName:perfilRef.current.value,
             birthDate: dateRef.current.value,
             passwordHash: md5(passRef.current.value)
            
         };
+        const direccion = {
+            provincia: provinceRef.current.value,
+            canton: postalRef.current.value,
+            distrito: postalRef.current.value,
+            detalles: detalleRef.current.value
+        }
         if (passRef.current.value === confirmPassRef.current.value) {
             if (enteredAge >= 18) {
-                setError(false)
-                Axios.post("https://pollitobackend.azurewebsites.net/api/AspNetUsers", cliente)
+                    setError(false)
+                    Axios.post("https://pollitobackend.azurewebsites.net/api/AspNetUsers", cliente)
                     .then(response => {
-                        
                         if (typeof response.data.id != "undefined") {
 
-                            swal("Cuenta creada correctamente, puedes iniciar sesión!", {
+                            //agregar la creacion de la direccion aca.
+                            Axios.post("https://pollitobackend.azurewebsites.net/api/Direcciones",direccion);
+
+                            swal("Cuenta creada correctamente!", {
                                 icon: "success"
                             });
-                            history.push("/");
+                            history.push("/AdminMenuUsuarios");
 
                         } else {
                             return swal("Ha existido un error en la creacion del usuario!", {
@@ -70,14 +79,18 @@ function Register() {
                     })
                     .then(error => {
                         console.log(error);//recoger el error
-                        
+                        return swal(error, {
+                            icon: "error"
+                        });
                     });
 
-                    if(errors){
+                    if(error){
                         return swal("Ha existido un error en la creacion del usuario!", {
                             icon: "error"
                         });
                     }
+               
+                
             } else {
                 return swal("Debe ser mayor de 18 años para poder inscribirse en nuestros programas.", {
                     icon: "error"
@@ -90,14 +103,19 @@ function Register() {
         }
     }
     return (<div>
+        <Header />
+        <HeaderStatus
+            h1="Agregar Usuario"
+            backUrl="/AdminMenuUsuarios"
+            backName="Menu Usuarios"
+            currentName="Agregar Usuario"
+        />
         <section className="calculate-bmi-area fade-in-card">
             <div className="container">
-             <h3 className="mt" style={{ fontSize: 40 }}>
-                <img src={PollitoLogo} alt="Pollitos-logo" />
-             </h3>
+             
                 <div className="row">
                     <div className="col-sm-12">
-                        <h2 className="para-color mt-5">Registro de cliente</h2>
+                        <h2 className="para-color mt-5">Registro de usuario</h2>
                     </div>
                 </div>
                 <div className="row ">
@@ -151,6 +169,17 @@ function Register() {
                                     </div>
                                     <div className="col-sm-4">
                                         <div className="form-group">
+                                            <label >Perfil<span>*</span></label>
+                                            <select name="province" className="form-control custom-select" ref={perfilRef} required>
+                                                <option>Seleccione perfil</option>
+                                                <option value="Administrador">Administrador</option>
+                                                <option value="Usuario">Usuario</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <div className="form-group">
                                             <label >Provincia<span>*</span></label>
                                             <select name="province" className="form-control custom-select" ref={provinceRef} required>
                                                 <option>Selecciona la provincia</option>
@@ -169,8 +198,9 @@ function Register() {
                                             <label >Cantón<span>*</span></label>
                                             <input type="text" className="form-control" placeholder="" ref={postalRef} name="postalCode" required />
                                         </div>
+                                        <hr className="my-4" />
                                     </div>
-                                    <div className="col-sm-12">
+                                    <div className="col-sm-8">
                                         <div className="form-group">
                                             <label >Dirección<span>*</span></label>
                                             <input type="text" className="form-control" placeholder="" ref={detalleRef} name="address" required/>
@@ -195,10 +225,7 @@ function Register() {
                                             <button type="submit" disabled={loading} className="btn btn-effect section-button">Registrar</button>
 
                                         </div>
-                                        <br />
-                                        <div className="w-100 text-center mt-2">
-                                            <Link to="/" style={{ color: "gray" }}>Ya tengo cuenta, Ingresar</Link>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </form>
@@ -211,4 +238,9 @@ function Register() {
         <Footer />
     </div>);
 }
-export default Register;
+export default CreateUsuario
+
+
+
+
+

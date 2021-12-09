@@ -1,9 +1,8 @@
 /*-----------------------------------------------
             1. General Style
 -------------------------------------------------*/
-@import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,300;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
+
   * {
       margin: 0;
       padding: 0;
@@ -22,7 +21,7 @@ body {
   font-size: 16px;
   font-weight: normal;
   overflow-x: hidden!important;
-  font-family: 'Cairo', sans-serif !important;
+  font-family: 'Didact Gothic', sans-serif !important;
 }
 
 p {

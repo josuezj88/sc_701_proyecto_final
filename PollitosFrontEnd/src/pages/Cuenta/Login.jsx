@@ -1,16 +1,15 @@
 import React, { useState, useRef } from "react";
 import Footer from "../../components/Footer";
 import md5 from 'md5';
-import { Button, Alert, Label, Input, FormGroup } from "reactstrap";
+import { Button, Alert, Label} from "reactstrap";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
 import PollitoLogo from "../../images/pollitosHierro.png";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons';
-import swal from 'sweetalert';
-import img4 from "../../images/Vector-4.svg";
+
+
 library.add(faGoogle, faFacebookF)
 
 function Login() {
@@ -18,9 +17,7 @@ function Login() {
   const history = useHistory();
   const passwordRef = useRef();
   const [error, setError] = useState("");
-  const baseUrl = "http://localhost:6281/api/AspNetUsers";
-
-  const cookies = new Cookies();
+  const baseUrl = "https://pollitobackend.azurewebsites.net/api/AspNetUsers";
 
   function setLogin(e) {
     e.preventDefault();
@@ -30,21 +27,30 @@ function Login() {
       password: md5(passwordRef.current.value)
     };
 
+    var test = "";
+
     Axios.get(baseUrl + `/${login.username}/${login.password}`)
-      .then(response => {
-        if(response){
-            console.log(response.data);
-            cookies.set('id', response.data.id, {path:"/Home"});
+      .then(async response => {
+        
+        test = response.data.securityStamp;
+        if(response.request.status === 200){
+            if(await response.data.securityStamp === "Activo"){
+             
+            //set localStorage
             localStorage.setItem("Id", response.data.id);
-            cookies.set('username', response.data.username, {path:"/Home"});
             localStorage.setItem("Cuenta", response.data.userName);
             localStorage.setItem("Email", response.data.email);
-            cookies.set('nombre', response.data.nombre, {path:"/Home"});
-            localStorage.setItem("Nombre", response.data.nombre);
-            cookies.set('apellido', response.data.primerApellido, {path:"/Home"});
-            cookies.set('telefono', response.data.phoneNumber, {path:"/Home"});
+            localStorage.setItem("Perfil", true);
+            
            
             history.push("/Home");
+            }
+            
+            if(response.data.securityStamp === "Inactivo") {
+              setError("Su cuenta se encuentra inactiva favor contactar a su administrador al 2545-1520");
+            }
+           
+            
         }else{
             setError("Su contraseña o usuario estan incorrectos");
         }
@@ -52,11 +58,12 @@ function Login() {
       })
       .then(error => {
         console.log(error);
+        
+        if (test !== "Inactivo") {
+          setError("Su contraseña o usuario estan incorrectos, error!");
+        }
+        
       });
-  }
-
-  const setGoogle = () => {
-    alert("Not connected to API");
   }
 
   return (<div>
@@ -107,9 +114,9 @@ function Login() {
             <br></br>
 
             <div className="d-flex align-items-center mt-4">
-              No tiene cuenta?
+              
               <Link to="/Registro" className="ml-1" style={{ color: "#D6D2C4", textDecoration: "none" }}>
-                Registrarse
+              No tiene cuenta? Registrarse
               </Link>
             </div>
 
