@@ -79,7 +79,7 @@ namespace API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent(); 
         }
 
         // POST: api/Activities
