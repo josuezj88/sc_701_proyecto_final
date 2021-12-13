@@ -11,7 +11,7 @@ using data = DAL.DO.Objects;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]  
     public class DetallesController : ControllerBase
     {
         private readonly SolutionDbContext _context;
